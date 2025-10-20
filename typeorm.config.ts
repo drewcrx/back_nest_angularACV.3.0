@@ -1,11 +1,11 @@
 import {config} from "dotenv"
 import { DataSource } from "typeorm";
 
-const env= process.env.NODE_ENV || 'developent'
+const env= process.env.NODE_ENV || 'development'
 
 config({
     override: true,
-    path:`.env.&{env}`,
+    path:`.env.${env}`,
     debug:true //para validar que se esta modificando
 
 })
