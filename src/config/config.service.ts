@@ -5,28 +5,18 @@ import { parse } from 'dotenv';
 @Injectable()
 export class ConfigService {
     private readonly envConfig: {[key:string]:string}
+
     constructor(){
-        const isDevelopmentEnv= process.env.NODE_ENV !== 'production'
-        if (isDevelopmentEnv){
-            const envieFilePath= __dirname +'/../../.env.development'
-            const existsPath = fs.existsSync(envieFilePath)
+        
+        const env =process.env.NODE_ENV || 'development'
+        const envieFilePath= `${__dirname}/../../../.env.${env}`
+        const existsPath = fs.existsSync(envieFilePath)
             if(!existsPath){
-                console.log('.env.development no existe DEVELOPMENT')
+                console.log(`.env.${process.env.NODE_ENV} no existe`)
                 process.exit(0)
             }
             this.envConfig=parse(fs.readFileSync(envieFilePath))
         }
-        else
-        {
-            const envieFilePath= __dirname +'/../../../.env.production'
-            const existsPath = fs.existsSync(envieFilePath)
-            if(!existsPath){
-                console.log('.env.development no existe PRODUCTION')
-                process.exit(0)
-            }
-            this.envConfig=parse(fs.readFileSync(envieFilePath))
-        }
-    }
     get(key: string):string{
         return this.envConfig[key];
     }
